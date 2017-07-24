@@ -1,1 +1,1 @@
-include ':sample', ':adapter'
+include ':sample', ':multiviewadapter'
