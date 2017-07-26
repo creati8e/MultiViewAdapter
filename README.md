@@ -1,12 +1,12 @@
 # MultiViewAdapter
 
-Library for easy displaying mutliple view types in RecyclerView adapter.
-You even no need to write custom adapter and ViewHolder.
+Library for easily displaying mutliple view types in RecyclerView adapter.
+You don't even need to write custom adapter and ViewHolder.
 
 # Setup
 Latest version is **1.0**
 
-Firstly add repository to your project's build.gradle 
+First add repository to your project's build.gradle 
 
 ```groovy
 allprojects {
@@ -59,9 +59,8 @@ Done!
 
 # Click listeners
 
-Long and single click listeners are available.
-To add click llstener, override method **onVhCreated** in your renderer.
-Then set listener on view what you want.
+To add click listener, override method **onVhCreated** in your renderer.
+Then set listener on the view.
 
 ```kotlin
 class UserRenderer : ViewRenderer<UserEntity, ViewHolder>() {
