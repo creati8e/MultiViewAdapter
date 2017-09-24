@@ -7,22 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 
 
-@Suppress("unused")
-open class MultiViewAdapter(val items: MutableList<Any> = mutableListOf<Any>())
+@Suppress("unused", "WeakerAccess")
+open class MultiViewAdapter(val items: MutableList<Any> = mutableListOf())
     : RecyclerView.Adapter<ViewHolder>(),
         ViewHolder.ClickCallback,
         ViewHolder.LongClickCallback {
 
-    private val renderers = SparseArray<ViewRenderer<Any, ViewHolder>>()
+    protected val renderers = SparseArray<ViewRenderer<Any, ViewHolder>>()
     private val handler = Handler()
     var clickListener: ((Any, View, Int) -> Unit)? = null
     var longClickListener: ((Any, View, Int) -> Unit)? = null
 
     //region RecyclerView impl
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return renderers.get(viewType).createViewHolder(parent, this, this)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+            renderers.get(viewType).createViewHolder(parent, this, this)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val (viewRenderer, model) = getRendererForPosition(position)
