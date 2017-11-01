@@ -4,24 +4,13 @@ Library for easily displaying mutliple view types in RecyclerView adapter.
 You don't even need to write custom adapter and ViewHolder.
 
 # Setup
-Latest version is **1.0**
-
-First add repository to your project's build.gradle 
-
-```groovy
-allprojects {
-    repositories {
-        ...
-        maven { url "http://dl.bintray.com/creati8e/maven" }
-    }
-}
-```
+Latest version is **1.1/0**
 
 Add dependency to your app's build.gradle 
 
 ```groovy
 dependencies {
-    compile 'serg.chuprin:multiviewadapter:1.0'
+    compile 'serg.chuprin:multiviewadapter:1.1.0'
 }
 ```
 
@@ -30,11 +19,9 @@ dependencies {
 * Write renderer
 
 ```kotlin
-class UserRenderer : ViewRenderer<UserEntity, ViewHolder>() {
+class UserRenderer : SimpleViewRenderer<UserEntity>() {
 
-    override fun type(): Int = R.layout.list_item_user
-
-    override fun isViewForType(model: Any): Boolean = model is UserEntity
+    override val type: Int = R.layout.list_item_user
 
     override fun bindView(holder: ViewHolder, model: UserEntity) {
         holder.itemView.textView.text = model.login
@@ -47,11 +34,8 @@ class UserRenderer : ViewRenderer<UserEntity, ViewHolder>() {
 ```kotlin
 class MainActivity : AppCompatActivity() {
 
-    private var adapter = MultiViewAdapter()
-    ...
-    override fun onCreate(savedInstanceState: Bundle?) {
-        ...
-        adapter.registerRenderer(UserRenderer())
+    private val adapter = MultiViewAdapter().apply{
+        registerRenderer(UserRenderer())   
     }
 }
 ```
