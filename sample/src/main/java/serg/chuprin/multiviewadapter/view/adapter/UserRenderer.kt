@@ -5,17 +5,15 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.list_item_user.view.*
 import serg.chuprin.adapter.Click
 import serg.chuprin.adapter.LongClick
+import serg.chuprin.adapter.SimpleViewRenderer
 import serg.chuprin.adapter.ViewHolder
-import serg.chuprin.adapter.ViewRenderer
 import serg.chuprin.multiviewadapter.R
 import serg.chuprin.multiviewadapter.model.UserEntity
 
 
-class UserRenderer : ViewRenderer<UserEntity, ViewHolder>() {
+class UserRenderer : SimpleViewRenderer<UserEntity>() {
 
-    override fun type(): Int = R.layout.list_item_user
-
-    override fun isViewForType(model: Any): Boolean = model is UserEntity
+    override val type: Int = R.layout.list_item_user
 
     override fun bindView(holder: ViewHolder, model: UserEntity) {
         holder.itemView.textView.text = model.login

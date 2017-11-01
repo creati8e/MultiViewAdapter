@@ -1,13 +1,9 @@
 package serg.chuprin.multiviewadapter.view.adapter
 
-import serg.chuprin.adapter.ViewHolder
-import serg.chuprin.adapter.ViewRenderer
+import serg.chuprin.adapter.SimpleViewRenderer
 import serg.chuprin.multiviewadapter.R
 
-class ProgressRenderer : ViewRenderer<ProgressModel, ViewHolder>() {
+class ProgressRenderer : SimpleViewRenderer<ProgressModel>() {
 
-    override fun type(): Int = R.layout.list_item_progress
-
-    override fun isViewForType(model: Any): Boolean = model is ProgressModel
-
+    override val type: Int = R.layout.list_item_progress
 }
