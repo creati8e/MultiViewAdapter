@@ -4,7 +4,7 @@ Library for easily displaying mutliple view types in RecyclerView adapter.
 You don't even need to write custom adapter and ViewHolder.
 
 # Setup
-Latest version is **1.1/0**
+Latest version is **1.1.0**
 
 Add dependency to your app's build.gradle 
 
