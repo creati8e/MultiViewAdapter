@@ -12,19 +12,22 @@ abstract class ViewRenderer<in M : Any, VH : ViewHolder> {
 
     open fun bindView(holder: VH, model: M) = Unit
 
-    open fun createViewHolder(parent: ViewGroup,
-                              clickListener: Click?,
-                              longClickListener: LongClick?): VH {
-        return (ViewHolder(inflate(type, parent)) as VH)
-                .also { onVhCreated(it, clickListener, longClickListener) }
-    }
+    open fun createViewHolder(
+            parent: ViewGroup,
+            clickListener: Click?,
+            longClickListener: LongClick?
+    ): VH = (ViewHolder(inflate(type, parent)) as VH)
+            .also { onVhCreated(it, clickListener, longClickListener) }
 
-    protected open fun onVhCreated(holder: VH, clickListener: Click?,
-                                   longClickListener: LongClick?) = Unit
+    protected open fun onVhCreated(
+            holder: VH, clickListener: Click?,
+            longClickListener: LongClick?
+    ) = Unit
 
-
-    private fun inflate(@LayoutRes layout: Int, parent: ViewGroup): View =
-            LayoutInflater.from(parent.context).inflate(layout, parent, false)
+    private fun inflate(
+            @LayoutRes layout: Int,
+            parent: ViewGroup
+    ): View = LayoutInflater.from(parent.context).inflate(layout, parent, false)
 
     @Deprecated("Unused since v1.1.0", ReplaceWith("true"))
     open fun isViewForType(model: Any): Boolean = true

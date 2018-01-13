@@ -9,21 +9,25 @@ import kotlin.reflect.KClass
 
 
 @Suppress("unused", "MemberVisibilityCanPrivate", "UNCHECKED_CAST", "PropertyName")
-open class MultiViewAdapter(val items: MutableList<Any> = mutableListOf())
-    : RecyclerView.Adapter<ViewHolder>(),
+open class MultiViewAdapter(
+
+        val items: MutableList<Any> = mutableListOf()
+
+) : RecyclerView.Adapter<ViewHolder>(),
         ViewHolder.ClickCallback,
         ViewHolder.LongClickCallback {
+
+    var clickListener: ((Any, View, Int) -> Unit)? = null
+    var longClickListener: ((Any, View, Int) -> Unit)? = null
 
     protected val renderers = SparseArray<ViewRenderer<Any, ViewHolder>>()
     protected val rendererTypes = mutableMapOf<KClass<*>, ViewRenderer<Any, ViewHolder>>()
     private val handler = Handler()
 
-    var clickListener: ((Any, View, Int) -> Unit)? = null
-    var longClickListener: ((Any, View, Int) -> Unit)? = null
-
     @PublishedApi
     internal val `access$renderers`: SparseArray<ViewRenderer<Any, ViewHolder>>
         get() = renderers
+
     @PublishedApi
     internal val `access$rendererTypes`: MutableMap<KClass<*>, ViewRenderer<Any, ViewHolder>>
         get() = rendererTypes
@@ -38,8 +42,18 @@ open class MultiViewAdapter(val items: MutableList<Any> = mutableListOf())
 
     //region RecyclerView impl
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            renderers.get(viewType).createViewHolder(parent, this, this)
+    override fun onCreateViewHolder(
+
+            parent: ViewGroup,
+            viewType: Int
+
+    ): ViewHolder = renderers
+            .get(viewType)
+            .createViewHolder(
+                    parent = parent,
+                    clickListener = this,
+                    longClickListener = this
+            )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val (viewRenderer, model) = getRendererForPosition(position)
@@ -101,7 +115,10 @@ open class MultiViewAdapter(val items: MutableList<Any> = mutableListOf())
         longClickListener?.invoke(getItem(position), view, position)
     }
 
-    protected open fun getRendererForPosition(position: Int): Pair<ViewRenderer<Any, ViewHolder>, Any> {
+    protected open fun getRendererForPosition(
+            position: Int
+    ): Pair<ViewRenderer<Any, ViewHolder>, Any> {
+
         val item = getItem(position)
         val kClass = item::class
         val viewRenderer = rendererTypes[kClass] ?: throw IllegalStateException(

@@ -12,8 +12,10 @@ class NetworkErrorRenderer : SimpleViewRenderer<NetworkErrorModel>() {
 
     override val type: Int = R.layout.list_item_network_error
 
-    override fun onVhCreated(holder: ViewHolder, clickListener: Click?,
-                             longClickListener: LongClick?) {
+    override fun onVhCreated(
+            holder: ViewHolder, clickListener: Click?,
+            longClickListener: LongClick?
+    ) {
         holder.itemView.tryBtn.setOnClickListener {
             clickListener?.onClick(it, holder.layoutPosition)
         }
