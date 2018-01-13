@@ -1,1 +1,1 @@
-include ':sample', ':multiviewadapter'
+include ':sample', ':multiviewadapter', ':multiviewadapter-kt-extensions'

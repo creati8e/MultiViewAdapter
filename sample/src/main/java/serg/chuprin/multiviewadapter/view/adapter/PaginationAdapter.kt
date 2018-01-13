@@ -2,7 +2,7 @@ package serg.chuprin.multiviewadapter.view.adapter
 
 import serg.chuprin.adapter.MultiViewAdapter
 
-class PaginationAdapter(items: MutableList<Any> = mutableListOf<Any>()) : MultiViewAdapter(items) {
+class PaginationAdapter : MultiViewAdapter() {
 
     fun setLoadingMoreVisibility(visible: Boolean) = when (visible) {
         true -> addItemIfNotPresent(ProgressModel())
