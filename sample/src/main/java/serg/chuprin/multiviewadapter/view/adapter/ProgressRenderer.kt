@@ -1,6 +1,6 @@
 package serg.chuprin.multiviewadapter.view.adapter
 
-import chuprin.serg.extensions.ContainerRenderer
+import serg.chuprin.adapter.ContainerRenderer
 import serg.chuprin.multiviewadapter.R
 
 class ProgressRenderer : ContainerRenderer<ProgressModel>() {

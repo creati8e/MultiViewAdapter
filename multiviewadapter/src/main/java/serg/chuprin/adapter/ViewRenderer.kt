@@ -16,11 +16,14 @@ abstract class ViewRenderer<in M : Any, VH : ViewHolder> {
             parent: ViewGroup,
             clickListener: Click?,
             longClickListener: LongClick?
-    ): VH = (ViewHolder(inflate(type, parent)) as VH)
-            .also { onVhCreated(it, clickListener, longClickListener) }
+    ): VH {
+        val view = inflate(type, parent)
+        return (ViewHolder(view) as VH).also { onVhCreated(it, clickListener, longClickListener) }
+    }
 
     protected open fun onVhCreated(
-            holder: VH, clickListener: Click?,
+            holder: VH,
+            clickListener: Click?,
             longClickListener: LongClick?
     ) = Unit
 

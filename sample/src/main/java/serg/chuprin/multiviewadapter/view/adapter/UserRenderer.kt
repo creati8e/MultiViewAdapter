@@ -1,11 +1,11 @@
 package serg.chuprin.multiviewadapter.view.adapter
 
-import chuprin.serg.extensions.ContainerHolder
-import chuprin.serg.extensions.ContainerRenderer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.list_item_user.*
 import serg.chuprin.adapter.Click
+import serg.chuprin.adapter.ContainerHolder
+import serg.chuprin.adapter.ContainerRenderer
 import serg.chuprin.adapter.LongClick
 import serg.chuprin.multiviewadapter.R
 import serg.chuprin.multiviewadapter.model.UserEntity

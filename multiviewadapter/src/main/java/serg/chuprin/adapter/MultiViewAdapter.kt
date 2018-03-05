@@ -8,11 +8,15 @@ import android.view.ViewGroup
 import kotlin.reflect.KClass
 
 
-@Suppress("unused", "MemberVisibilityCanPrivate", "UNCHECKED_CAST", "PropertyName")
+@Suppress(
+        "unused",
+        "MemberVisibilityCanPrivate",
+        "UNCHECKED_CAST",
+        "PropertyName",
+        "MemberVisibilityCanBePrivate", "RemoveRedundantBackticks"
+)
 open class MultiViewAdapter(
-
         val items: MutableList<Any> = mutableListOf()
-
 ) : RecyclerView.Adapter<ViewHolder>(),
         ViewHolder.ClickCallback,
         ViewHolder.LongClickCallback {
@@ -37,16 +41,14 @@ open class MultiViewAdapter(
             throw IllegalStateException("ViewRenderer already exist with this type: " + renderer.type)
         }
         `access$renderers`.put(renderer.type, renderer as ViewRenderer<Any, ViewHolder>)
-        `access$rendererTypes`.put(R::class, renderer)
+        `access$rendererTypes`[R::class] = renderer
     }
 
     //region RecyclerView impl
 
     override fun onCreateViewHolder(
-
             parent: ViewGroup,
             viewType: Int
-
     ): ViewHolder = renderers
             .get(viewType)
             .createViewHolder(
