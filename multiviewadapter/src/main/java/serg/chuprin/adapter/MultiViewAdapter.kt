@@ -9,17 +9,17 @@ import kotlin.reflect.KClass
 
 
 @Suppress(
-        "unused",
-        "MemberVisibilityCanPrivate",
-        "UNCHECKED_CAST",
-        "PropertyName",
-        "MemberVisibilityCanBePrivate", "RemoveRedundantBackticks"
+    "unused",
+    "MemberVisibilityCanPrivate",
+    "UNCHECKED_CAST",
+    "PropertyName",
+    "MemberVisibilityCanBePrivate", "RemoveRedundantBackticks"
 )
 open class MultiViewAdapter(
-        val items: MutableList<Any> = mutableListOf()
+    val items: MutableList<Any> = mutableListOf()
 ) : RecyclerView.Adapter<ViewHolder>(),
-        ViewHolder.ClickCallback,
-        ViewHolder.LongClickCallback {
+    ViewHolder.ClickCallback,
+    ViewHolder.LongClickCallback {
 
     var clickListener: ((Any, View, Int) -> Unit)? = null
     var longClickListener: ((Any, View, Int) -> Unit)? = null
@@ -46,16 +46,15 @@ open class MultiViewAdapter(
 
     //region RecyclerView impl
 
-    override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
-    ): ViewHolder = renderers
-            .get(viewType)
-            .createViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return renderers
+                .get(viewType)
+                .createViewHolder(
                     parent = parent,
                     clickListener = this,
                     longClickListener = this
-            )
+                )
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val (viewRenderer, model) = getRendererForPosition(position)
@@ -118,17 +117,18 @@ open class MultiViewAdapter(
     }
 
     protected open fun getRendererForPosition(
-            position: Int
+        position: Int
     ): Pair<ViewRenderer<Any, ViewHolder>, Any> {
 
         val item = getItem(position)
         val kClass = item::class
         val viewRenderer = rendererTypes[kClass] ?: throw IllegalStateException(
-                "No renderer registered for type: ${kClass.simpleName}")
+            "No renderer registered for type: ${kClass.simpleName}"
+        )
         return viewRenderer to item
     }
 
-    private fun notifyInserted(count: Int) = itemCount.run {
-        handler.post { notifyItemRangeInserted(this, this + count) }
+    private fun notifyInserted(count: Int): Boolean {
+        return itemCount.run { handler.post { notifyItemRangeInserted(this, this + count) } }
     }
 }

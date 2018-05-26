@@ -7,7 +7,7 @@ import serg.chuprin.multiviewadapter.model.domain.ScrollEvent
 import serg.chuprin.multiviewadapter.model.domain.UsersPaginator
 import serg.chuprin.multiviewadapter.view.UsersView
 
-class UsersPresenter(val paginator: UsersPaginator) {
+class UsersPresenter(private val paginator: UsersPaginator) {
 
     var view: UsersView? = null
 
@@ -15,7 +15,9 @@ class UsersPresenter(val paginator: UsersPaginator) {
 
     fun paginate(scrollEvents: Observable<ScrollEvent>) {
         paginationDisposable?.dispose()
-        paginationDisposable = paginator.paginate(scrollEvents, { view?.paginationProgress(true) })
+
+        paginationDisposable = paginator
+                .paginate(scrollEvents, { view?.paginationProgress(true) })
                 .doOnSubscribe { view?.showNetworkError(false) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext { view?.paginationProgress(false) }

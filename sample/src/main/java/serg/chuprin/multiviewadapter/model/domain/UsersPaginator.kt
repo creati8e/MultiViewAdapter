@@ -5,7 +5,7 @@ import serg.chuprin.multiviewadapter.model.UserEntity
 import serg.chuprin.multiviewadapter.model.repository.PaginationRepository
 
 class UsersPaginator(
-        private val repository: PaginationRepository<UserEntity>
+    private val repository: PaginationRepository<UserEntity>
 ) : Paginator<UserEntity>() {
 
     private var lastUserId: Int = -1

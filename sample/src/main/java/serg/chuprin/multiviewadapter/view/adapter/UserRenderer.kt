@@ -15,23 +15,20 @@ class UserRenderer : ContainerRenderer<UserEntity>() {
 
     override val type: Int = R.layout.list_item_user
 
-    override fun bindView(holder: ContainerHolder, model: UserEntity) = with(holder) {
-        textView.text = model.login
+    override fun bindView(holder: ContainerHolder, model: UserEntity) {
+        holder.textView.text = model.login
 
-        Glide.with(imageView.context)
+        Glide
+                .with(holder.imageView.context)
                 .load(model.avatarUrl)
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .error(R.drawable.ic_user_placeholder)
-                .into(imageView)
-        Unit
     }
 
     override fun onVhCreated(
-
-            holder: ContainerHolder,
-            clickListener: Click?,
-            longClickListener: LongClick?
-
+        holder: ContainerHolder,
+        clickListener: Click?,
+        longClickListener: LongClick?
     ) = holder.itemView.setOnClickListener { clickListener?.onClick(it, holder.layoutPosition) }
 }
 
