@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply from: 'install.gradle'
 apply from: 'bintray.gradle'
+apply plugin: 'de.mobilej.unmock'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -9,6 +10,8 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$supportVer"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    testImplementation 'junit:junit:4.12'
+    unmock 'org.robolectric:android-all:4.3_r2-robolectric-0'
 }
 repositories {
     mavenCentral()

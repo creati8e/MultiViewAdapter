@@ -15,33 +15,65 @@ import kotlin.reflect.KClass
     "PropertyName",
     "MemberVisibilityCanBePrivate", "RemoveRedundantBackticks"
 )
-open class MultiViewAdapter(
-    val items: MutableList<Any> = mutableListOf()
-) : RecyclerView.Adapter<ViewHolder>(),
+open class MultiViewAdapter : RecyclerView.Adapter<ViewHolder>(),
     ViewHolder.ClickCallback,
     ViewHolder.LongClickCallback {
+
+    var items: MutableList<Any> = mutableListOf()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     var clickListener: ((Any, View, Int) -> Unit)? = null
     var longClickListener: ((Any, View, Int) -> Unit)? = null
 
-    protected val renderers = SparseArray<ViewRenderer<Any, ViewHolder>>()
-    protected val rendererTypes = mutableMapOf<KClass<*>, ViewRenderer<Any, ViewHolder>>()
+    val renderers = SparseArray<ViewRenderer<Any, ViewHolder>>()
+    val rendererTypes = mutableMapOf<KClass<*>, ViewRenderer<Any, ViewHolder>>()
+
     private val handler = Handler()
 
-    @PublishedApi
-    internal val `access$renderers`: SparseArray<ViewRenderer<Any, ViewHolder>>
-        get() = renderers
-
-    @PublishedApi
-    internal val `access$rendererTypes`: MutableMap<KClass<*>, ViewRenderer<Any, ViewHolder>>
-        get() = rendererTypes
-
     inline fun <reified R : Any> registerRenderer(renderer: ViewRenderer<R, *>) {
-        if (`access$renderers`.get(renderer.type) != null) {
+        if (renderers.get(renderer.type) != null) {
             throw IllegalStateException("ViewRenderer already exist with this type: " + renderer.type)
         }
-        `access$renderers`.put(renderer.type, renderer as ViewRenderer<Any, ViewHolder>)
-        `access$rendererTypes`[R::class] = renderer
+        renderers.put(renderer.type, renderer as ViewRenderer<Any, ViewHolder>)
+        rendererTypes[R::class] = renderer
+    }
+
+    fun <R : Any> registerRenderer(renderer: ViewRenderer<R, *>, typeKlass: KClass<R>) {
+        if (renderers.get(renderer.type) != null) {
+            throw IllegalStateException("ViewRenderer already exist with this type: " + renderer.type)
+        }
+        renderers.put(renderer.type, renderer as ViewRenderer<Any, ViewHolder>)
+        rendererTypes[typeKlass] = renderer
+    }
+
+    fun removeRenderer(typeKlass: KClass<*>): Boolean {
+        val removedRenderer = rendererTypes.remove(typeKlass) ?: return false
+        val index = renderers.indexOfValue(removedRenderer).takeIf { it != -1 } ?: return false
+
+        renderers.removeAt(index)
+        return true
+    }
+
+    fun removeRenderer(renderer: ViewRenderer<R, *>): Boolean {
+        var type: KClass<*>? = null
+
+        for ((registeredType, registeredRenderer) in rendererTypes) {
+            if (registeredRenderer.type == renderer.type) {
+                type = registeredType
+                break
+            }
+        }
+        if (type != null) rendererTypes.remove(type)
+        val index = renderers
+                .indexOfValue(renderer as ViewRenderer<Any, ViewHolder>)
+                .takeIf { it != -1 }
+                ?: return false
+
+        renderers.removeAt(index)
+        return true
     }
 
     //region RecyclerView impl
@@ -71,12 +103,6 @@ open class MultiViewAdapter(
 
     open fun getItem(position: Int): Any = items[position]
 
-    open fun setItems(newItems: List<Any>) {
-        items.clear()
-        items.addAll(newItems)
-        notifyDataSetChanged()
-    }
-
     open fun addItems(newItems: List<Any>) {
         items.addAll(newItems)
         notifyInserted(newItems.size)
@@ -88,7 +114,7 @@ open class MultiViewAdapter(
     }
 
     open fun addItemIfNotPresent(model: Any) {
-        if (items.isEmpty() || model.javaClass != items[items.lastIndex].javaClass) {
+        if (items.isEmpty() || model.javaClass != items.last().javaClass) {
             addItem(model)
         }
     }
@@ -101,7 +127,7 @@ open class MultiViewAdapter(
     }
 
     open fun removeLast(itemClass: Class<*>) {
-        if (items.isNotEmpty() && items[items.lastIndex].javaClass == itemClass) {
+        if (items.isNotEmpty() && items.last().javaClass == itemClass) {
             removeItemAt(items.lastIndex)
         }
     }
@@ -128,7 +154,7 @@ open class MultiViewAdapter(
         return viewRenderer to item
     }
 
-    private fun notifyInserted(count: Int): Boolean {
-        return itemCount.run { handler.post { notifyItemRangeInserted(this, this + count) } }
+    private fun notifyInserted(count: Int) {
+        handler.post { notifyItemRangeInserted(itemCount, itemCount + count) }
     }
 }
