@@ -31,7 +31,7 @@ class MultiViewAdapterTest {
 
         Assert.assertTrue(adapter.renderers.size() == 0)
 
-        adapter.registerRenderer(testRenderer, Any::class)
+        adapter.registerRenderer(testRenderer, Any::class.java)
 
         Assert.assertTrue(adapter.renderers.size() == 1)
 
@@ -45,11 +45,11 @@ class MultiViewAdapterTest {
 
         Assert.assertTrue(adapter.renderers.size() == 0)
 
-        adapter.registerRenderer(testRenderer, Any::class)
+        adapter.registerRenderer(testRenderer, Any::class.java)
 
         Assert.assertTrue(adapter.renderers.size() == 1)
 
-        adapter.removeRenderer(Any::class)
+        adapter.removeRenderer(Any::class.java)
 
         Assert.assertTrue(adapter.renderers.size() == 0)
     }
@@ -66,7 +66,7 @@ class MultiViewAdapterTest {
 
         Assert.assertTrue(adapter.renderers.size() == 1)
 
-        adapter.removeRenderer(Any::class)
+        adapter.removeRenderer(Any::class.java)
 
         Assert.assertTrue(adapter.renderers.size() == 0)
     }

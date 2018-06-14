@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView
 import android.util.SparseArray
 import android.view.View
 import android.view.ViewGroup
-import kotlin.reflect.KClass
 
 
 @Suppress(
@@ -29,7 +28,7 @@ open class MultiViewAdapter : RecyclerView.Adapter<ViewHolder>(),
     var longClickListener: ((Any, View, Int) -> Unit)? = null
 
     val renderers = SparseArray<ViewRenderer<Any, ViewHolder>>()
-    val rendererTypes = mutableMapOf<KClass<*>, ViewRenderer<Any, ViewHolder>>()
+    val rendererTypes = mutableMapOf<Class<*>, ViewRenderer<Any, ViewHolder>>()
 
     private val handler = Handler()
 
@@ -38,19 +37,19 @@ open class MultiViewAdapter : RecyclerView.Adapter<ViewHolder>(),
             throw IllegalStateException("ViewRenderer already exist with this type: " + renderer.type)
         }
         renderers.put(renderer.type, renderer as ViewRenderer<Any, ViewHolder>)
-        rendererTypes[R::class] = renderer
+        rendererTypes[R::class.java] = renderer
     }
 
-    fun <R : Any> registerRenderer(renderer: ViewRenderer<R, *>, typeKlass: KClass<R>) {
+    fun <R : Any> registerRenderer(renderer: ViewRenderer<R, *>, clazz: Class<R>) {
         if (renderers.get(renderer.type) != null) {
             throw IllegalStateException("ViewRenderer already exist with this type: " + renderer.type)
         }
         renderers.put(renderer.type, renderer as ViewRenderer<Any, ViewHolder>)
-        rendererTypes[typeKlass] = renderer
+        rendererTypes[clazz] = renderer
     }
 
-    fun removeRenderer(typeKlass: KClass<*>): Boolean {
-        val removedRenderer = rendererTypes.remove(typeKlass) ?: return false
+    fun removeRenderer(clazz: Class<*>): Boolean {
+        val removedRenderer = rendererTypes.remove(clazz) ?: return false
         val index = renderers.indexOfValue(removedRenderer).takeIf { it != -1 } ?: return false
 
         renderers.removeAt(index)
@@ -58,15 +57,15 @@ open class MultiViewAdapter : RecyclerView.Adapter<ViewHolder>(),
     }
 
     fun removeRenderer(renderer: ViewRenderer<R, *>): Boolean {
-        var type: KClass<*>? = null
+        var classType: Class<*>? = null
 
         for ((registeredType, registeredRenderer) in rendererTypes) {
             if (registeredRenderer.type == renderer.type) {
-                type = registeredType
+                classType = registeredType
                 break
             }
         }
-        if (type != null) rendererTypes.remove(type)
+        if (classType != null) rendererTypes.remove(classType)
         val index = renderers
                 .indexOfValue(renderer as ViewRenderer<Any, ViewHolder>)
                 .takeIf { it != -1 }
@@ -147,9 +146,9 @@ open class MultiViewAdapter : RecyclerView.Adapter<ViewHolder>(),
     ): Pair<ViewRenderer<Any, ViewHolder>, Any> {
 
         val item = getItem(position)
-        val kClass = item::class
-        val viewRenderer = rendererTypes[kClass] ?: throw IllegalStateException(
-            "No renderer registered for type: ${kClass.simpleName}"
+        val clazz = item::class.java
+        val viewRenderer = rendererTypes[clazz] ?: throw IllegalStateException(
+            "No renderer registered for type: ${clazz.simpleName}"
         )
         return viewRenderer to item
     }
