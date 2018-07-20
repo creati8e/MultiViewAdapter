@@ -18,11 +18,7 @@ open class MultiViewAdapter : RecyclerView.Adapter<ViewHolder>(),
     ViewHolder.ClickCallback,
     ViewHolder.LongClickCallback {
 
-    var items: MutableList<Any> = mutableListOf()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+    val items = mutableListOf<Any>()
 
     var clickListener: ((Any, View, Int) -> Unit)? = null
     var longClickListener: ((Any, View, Int) -> Unit)? = null
@@ -123,6 +119,12 @@ open class MultiViewAdapter : RecyclerView.Adapter<ViewHolder>(),
             items.removeAt(position)
             notifyItemRemoved(position)
         }
+    }
+
+    open fun setItems(items: List<Any>) {
+        this.items.clear()
+        this.items.addAll(items)
+        notifyDataSetChanged()
     }
 
     open fun removeLast(itemClass: Class<*>) {
