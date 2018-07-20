@@ -136,10 +136,12 @@ open class MultiViewAdapter : RecyclerView.Adapter<ViewHolder>(),
     //endregion
 
     override fun onClick(view: View, position: Int) {
+        if (position == RecyclerView.NO_POSITION) return
         clickListener?.invoke(getItem(position), view, position)
     }
 
     override fun onLongClick(view: View, position: Int) {
+        if (position == RecyclerView.NO_POSITION) return
         longClickListener?.invoke(getItem(position), view, position)
     }
 
