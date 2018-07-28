@@ -4,13 +4,21 @@ Library for easily displaying mutliple view types in RecyclerView adapter.
 You don't even need to write custom adapter and ViewHolder.
 
 # Setup
-Latest version is **1.1.0**
+Latest version is **1.2.4**
 
 Add dependency to your app's build.gradle 
 
 ```groovy
 dependencies {
-    compile 'serg.chuprin:multiviewadapter:1.1.0'
+    implementation 'serg.chuprin:multiviewadapter:1.2.4'
+}
+```
+
+Also you can use adapter with kotlin android-extensions
+
+```groovy
+dependencies {
+    implementation 'serg.chuprin:multiviewadapter-kt-extensions:1.2.4'
 }
 ```
 
@@ -18,12 +26,18 @@ dependencies {
 
 * Write renderer
 
+If you want to get power of kotlin android-extensions and don't want to write 
+ ViewHolder, use **ContainerRenderer**.
+
+Or you can use library in old way and use **ViewRenderer** and write custom
+ViewHolder
+
 ```kotlin
-class UserRenderer : SimpleViewRenderer<UserEntity>() {
+class UserRenderer : ContainerRenderer<UserEntity>() {
 
     override val type: Int = R.layout.list_item_user
 
-    override fun bindView(holder: ViewHolder, model: UserEntity) {
+    override fun bindView(holder: ContainerHolder, model: UserEntity) {
         holder.itemView.textView.text = model.login
     }
 }
@@ -32,12 +46,16 @@ class UserRenderer : SimpleViewRenderer<UserEntity>() {
 * Register renderer
 
 ```kotlin
-class MainActivity : AppCompatActivity() {
-
-    private val adapter = MultiViewAdapter().apply{
-        registerRenderer(UserRenderer())   
-    }
+val adapter = MultiViewAdapter().apply{
+    registerRenderer(UserRenderer())   
 }
+```
+
+If you use Java, you need to specify type explicitly
+
+```kotlin
+final MultiViewAdapter adapter = new MultiViewAdapter();
+adapter.registerRenderer(new UserRenderer(), UserEntity.class);
 ```
 Done!
 
@@ -47,11 +65,14 @@ To add click listener, override method **onVhCreated** in your renderer.
 Then set listener on the view.
 
 ```kotlin
-class UserRenderer : ViewRenderer<UserEntity, ViewHolder>() {
+class UserRenderer : ContainerRenderer<UserEntity>() {
 
     ...
-    override fun onVhCreated(holder: ViewHolder, clickListener: Click?,
-                             longClickListener: LongClick?) {
+    override fun onVhCreated(
+        holder: ContainerHolder,
+        clickListener: Click?,
+        longClickListener: LongClick?
+    ) {
         holder.itemView.userLogo.setOnClickListener {
             clickListener?.onClick(it, holder.layoutPosition)
         }
@@ -59,9 +80,3 @@ class UserRenderer : ViewRenderer<UserEntity, ViewHolder>() {
 }
 
 ```
-
-
-
-
-
-
