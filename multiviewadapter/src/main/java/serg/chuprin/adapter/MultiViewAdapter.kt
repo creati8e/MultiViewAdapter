@@ -88,6 +88,11 @@ open class MultiViewAdapter : RecyclerView.Adapter<ViewHolder>(),
         viewRenderer.bindView(holder, model)
     }
 
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        val (viewRenderer, model) = getRendererForPosition(position)
+        viewRenderer.bindView(holder, model, payloads)
+    }
+
     override fun getItemViewType(position: Int): Int = getRendererForPosition(position).first.type
 
     override fun getItemCount(): Int = items.size

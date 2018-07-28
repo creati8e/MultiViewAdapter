@@ -19,7 +19,7 @@ allprojects {
         maven { url 'https://maven.google.com' }
     }
     project.ext {
-        libVer = '1.2.3'
+        libVer = '1.2.4'
         supportVer = '27.1.1'
     }
 }

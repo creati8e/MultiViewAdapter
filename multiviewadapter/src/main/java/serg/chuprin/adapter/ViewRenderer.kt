@@ -8,9 +8,10 @@ import android.view.ViewGroup
 @Suppress("UNCHECKED_CAST")
 abstract class ViewRenderer<in M : Any, VH : ViewHolder> {
 
+    /**
+     *  Unique identifier that represents [LayoutRes] and ViewType at the same time
+     */
     abstract val type: Int
-
-    open fun bindView(holder: VH, model: M) = Unit
 
     open fun createViewHolder(
         parent: ViewGroup,
@@ -20,6 +21,10 @@ abstract class ViewRenderer<in M : Any, VH : ViewHolder> {
         val view = inflate(type, parent)
         return (ViewHolder(view) as VH).also { onVhCreated(it, clickListener, longClickListener) }
     }
+
+    open fun bindView(holder: VH, model: M) = Unit
+
+    open fun bindView(holder: VH, model: M, payloads: MutableList<Any>) = Unit
 
     protected open fun onVhCreated(
         holder: VH,
