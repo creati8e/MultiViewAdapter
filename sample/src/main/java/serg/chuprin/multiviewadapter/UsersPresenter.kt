@@ -17,14 +17,14 @@ class UsersPresenter(private val paginator: UsersPaginator) {
         paginationDisposable?.dispose()
 
         paginationDisposable = paginator
-                .paginate(scrollEvents, { view?.paginationProgress(true) })
-                .doOnSubscribe { view?.showNetworkError(false) }
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { view?.paginationProgress(false) }
-                .subscribe({ view?.addData(it) }, {
-                    view?.paginationProgress(false)
-                    view?.showNetworkError(true)
-                })
+            .paginate(scrollEvents) { view?.paginationProgress(true) }
+            .doOnSubscribe { view?.showNetworkError(false) }
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { view?.paginationProgress(false) }
+            .subscribe({ view?.addData(it) }, {
+                view?.paginationProgress(false)
+                view?.showNetworkError(true)
+            })
     }
 
     fun attachView(view: UsersView) {

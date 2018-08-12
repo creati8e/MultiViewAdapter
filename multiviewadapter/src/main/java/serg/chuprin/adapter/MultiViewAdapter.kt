@@ -63,9 +63,9 @@ open class MultiViewAdapter : RecyclerView.Adapter<ViewHolder>(),
         }
         if (classType != null) rendererTypes.remove(classType)
         val index = renderers
-                .indexOfValue(renderer as ViewRenderer<Any, ViewHolder>)
-                .takeIf { it != -1 }
-                ?: return false
+            .indexOfValue(renderer as ViewRenderer<Any, ViewHolder>)
+            .takeIf { it != -1 }
+            ?: return false
 
         renderers.removeAt(index)
         return true
@@ -75,22 +75,27 @@ open class MultiViewAdapter : RecyclerView.Adapter<ViewHolder>(),
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return renderers
-                .get(viewType)
-                .createViewHolder(
-                    parent = parent,
-                    clickListener = this,
-                    longClickListener = this
-                )
+            .get(viewType)
+            .createViewHolder(
+                parent = parent,
+                clickListener = this,
+                longClickListener = this
+            )
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        val (viewRenderer, model) = getRendererForPosition(position)
+
+        if (payloads.isNotEmpty()) {
+            viewRenderer.bindView(holder, model, payloads)
+        } else {
+            viewRenderer.bindView(holder, model)
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val (viewRenderer, model) = getRendererForPosition(position)
         viewRenderer.bindView(holder, model)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
-        val (viewRenderer, model) = getRendererForPosition(position)
-        viewRenderer.bindView(holder, model, payloads)
     }
 
     override fun getItemViewType(position: Int): Int = getRendererForPosition(position).first.type

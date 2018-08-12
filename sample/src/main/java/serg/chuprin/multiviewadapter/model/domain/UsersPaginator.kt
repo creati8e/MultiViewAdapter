@@ -13,8 +13,8 @@ class UsersPaginator(
     override fun nextPage(offset: Int): Observable<List<UserEntity>> {
         val actualOffset = if (lastUserId == -1) offset else lastUserId
         return repository
-                .getPage(actualOffset)
-                .doOnNext { if (it.isNotEmpty()) lastUserId = it.last().id }
+            .getPage(actualOffset)
+            .doOnNext { if (it.isNotEmpty()) lastUserId = it.last().id }
     }
 
 }

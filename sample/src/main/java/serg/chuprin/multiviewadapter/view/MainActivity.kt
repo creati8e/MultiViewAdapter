@@ -57,11 +57,11 @@ class MainActivity : AppCompatActivity(), UsersView {
 
 fun RecyclerView.paginate(): Observable<ScrollEvent> {
     return RxRecyclerView
-            .scrollEvents(this)
-            .startWith(RecyclerViewScrollEvent.create(this, 0, 0))
-            .distinctUntilChanged({ t1, t2 -> t1.dy() == t2.dy() })
-            .map {
-                val pos = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                ScrollEvent(pos, adapter.itemCount)
-            }
+        .scrollEvents(this)
+        .startWith(RecyclerViewScrollEvent.create(this, 0, 0))
+        .distinctUntilChanged { t1, t2 -> t1.dy() == t2.dy() }
+        .map {
+            val pos = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+            ScrollEvent(pos, adapter.itemCount)
+        }
 }

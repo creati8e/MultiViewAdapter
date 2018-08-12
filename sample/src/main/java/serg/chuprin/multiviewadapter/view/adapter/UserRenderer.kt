@@ -16,13 +16,15 @@ class UserRenderer : ContainerRenderer<UserEntity>() {
     override val type: Int = R.layout.list_item_user
 
     override fun bindView(holder: ContainerHolder, model: UserEntity) {
+        super.bindView(holder, model)
+
         holder.textView.text = model.login
 
         Glide
-                .with(holder.imageView.context)
-                .load(model.avatarUrl)
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .error(R.drawable.ic_user_placeholder)
+            .with(holder.imageView.context)
+            .load(model.avatarUrl)
+            .diskCacheStrategy(DiskCacheStrategy.RESULT)
+            .error(R.drawable.ic_user_placeholder)
     }
 
     override fun onVhCreated(
