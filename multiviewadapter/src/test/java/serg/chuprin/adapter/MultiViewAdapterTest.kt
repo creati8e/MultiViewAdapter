@@ -6,86 +6,57 @@ import org.junit.Test
 class MultiViewAdapterTest {
 
     private val adapter = MultiViewAdapter()
+    private val testRenderer = object : SimpleViewRenderer<Any>() {
+        override val type: Int = -1
+    }
 
     @Test
-    fun registerRenderer1() {
-
-        val testRenderer = object : SimpleViewRenderer<Any>() {
-            override val type: Int = -1
-        }
-
-        Assert.assertTrue(adapter.renderers.size() == 0)
-
+    fun `renderer should be added after registering via reified function`() {
         adapter.registerRenderer(testRenderer)
-
-        Assert.assertTrue(adapter.renderers.size() == 1)
-
+        assertRenderersRegistered(1)
     }
 
     @Test
-    fun registerRenderer2() {
-
-        val testRenderer = object : SimpleViewRenderer<Any>() {
-            override val type: Int = -1
-        }
-
-        Assert.assertTrue(adapter.renderers.size() == 0)
-
+    fun `renderer should be added after registering via class specifying`() {
         adapter.registerRenderer(testRenderer, Any::class.java)
-
-        Assert.assertTrue(adapter.renderers.size() == 1)
-
+        assertRenderersRegistered(1)
     }
 
     @Test
-    fun removeRenderer() {
-        val testRenderer = object : SimpleViewRenderer<Any>() {
-            override val type: Int = -1
-        }
-
-        Assert.assertTrue(adapter.renderers.size() == 0)
-
+    fun `renderer should be removed after registering via class specifying and removing via class`() {
         adapter.registerRenderer(testRenderer, Any::class.java)
 
-        Assert.assertTrue(adapter.renderers.size() == 1)
+        assertRenderersRegistered(1)
 
         adapter.removeRenderer(Any::class.java)
 
-        Assert.assertTrue(adapter.renderers.size() == 0)
+        assertRenderersRegistered(0)
     }
 
     @Test
-    fun removeRenderer2() {
-        val testRenderer = object : SimpleViewRenderer<Any>() {
-            override val type: Int = -1
-        }
-
-        Assert.assertTrue(adapter.renderers.size() == 0)
-
+    fun `renderer should be removed after registering via reified function and removing via class`() {
         adapter.registerRenderer(testRenderer)
 
-        Assert.assertTrue(adapter.renderers.size() == 1)
+        assertRenderersRegistered(1)
 
         adapter.removeRenderer(Any::class.java)
 
-        Assert.assertTrue(adapter.renderers.size() == 0)
+        assertRenderersRegistered(0)
     }
 
     @Test
-    fun removeRenderer3() {
-        val testRenderer = object : SimpleViewRenderer<Any>() {
-            override val type: Int = -1
-        }
-
-        Assert.assertTrue(adapter.renderers.size() == 0)
-
+    fun `renderer should be removed after instance registering and removing`() {
         adapter.registerRenderer(testRenderer)
 
-        Assert.assertTrue(adapter.renderers.size() == 1)
+        assertRenderersRegistered(1)
 
         adapter.removeRenderer(testRenderer)
 
-        Assert.assertTrue(adapter.renderers.size() == 0)
-        Assert.assertTrue(adapter.rendererTypes.isEmpty())
+        assertRenderersRegistered(0)
+    }
+
+    private fun assertRenderersRegistered(count: Int) {
+        Assert.assertEquals(count, adapter.renderers.size())
+        Assert.assertEquals(count, adapter.rendererTypes.size)
     }
 }
