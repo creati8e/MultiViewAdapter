@@ -1,0 +1,20 @@
+ext {
+
+    bintrayRepo = 'maven'
+
+    publishedGroupId = 'serg.chuprin'
+    libraryName = 'MultiViewAdapter'
+
+    libraryDescription = ''
+
+    siteUrl = 'https://gitlab.com/creati8e/MutliViewAdapter'
+    gitUrl = 'https://gitlab.com/creati8e/MutliViewAdapter.git'
+
+    developerId = 'creati8e'
+    developerName = 'Sergey Chuprin'
+    developerEmail = 'gregamer@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache 2.0"]
+}

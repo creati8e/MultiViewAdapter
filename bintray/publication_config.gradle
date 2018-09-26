@@ -1,0 +1,51 @@
+/**
+ *  You must specify "artifactId" in module's build.gradle file before applying this plugin
+ *  i.e
+ *  ext.artifactId = 'yourArtifactId'
+ *  apply from: 'publicationConfig.gradle'
+ *
+ *  NOTE: artifactId must be the same as your module's name
+ */
+apply plugin: 'com.github.dcendents.android-maven'
+apply from: '../bintray/properties.gradle'
+
+//don't know why need to specify group twice: here and in pom.project. Just leave it here
+group = publishedGroupId // Maven Group ID for the artifact
+
+install {
+
+    repositories.mavenInstaller {
+
+        // This generates POM.xml with proper parameters
+        pom.project {
+
+            packaging 'aar'
+            groupId publishedGroupId
+            artifactId artifactId
+
+            name libraryName
+            url siteUrl
+
+            licenses {
+                license {
+                    name licenseName
+                    url licenseUrl
+                }
+            }
+
+            developers {
+                developer {
+                    id developerId
+                    name developerName
+                    email developerEmail
+                }
+            }
+
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url siteUrl
+            }
+        }
+    }
+}

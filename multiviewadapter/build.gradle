@@ -1,16 +1,15 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply from: 'install.gradle'
-apply from: 'bintray.gradle'
+
+ext.artifactId = 'multiviewadapter'
+apply from: '../bintray/publication_config.gradle'
+apply from: '../bintray/bintray.gradle'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "com.android.support:appcompat-v7:$supportVer"
-    implementation "com.android.support:recyclerview-v7:$supportVer"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.android.support:appcompat-v7:$supportVersion"
+    implementation "com.android.support:recyclerview-v7:$supportVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     testImplementation 'junit:junit:4.12'
-}
-repositories {
-    mavenCentral()
 }

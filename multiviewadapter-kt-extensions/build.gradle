@@ -1,8 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply from: 'install.gradle'
-apply from: 'bintray.gradle'
+
+ext.artifactId = 'multiviewadapter-kt-extensions'
+apply from: '../bintray/publication_config.gradle'
+apply from: '../bintray/bintray.gradle'
 
 androidExtensions {
     experimental = true
@@ -11,8 +13,8 @@ androidExtensions {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "com.android.support:appcompat-v7:$supportVer"
-    implementation "com.android.support:recyclerview-v7:$supportVer"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.android.support:appcompat-v7:$supportVersion"
+    implementation "com.android.support:recyclerview-v7:$supportVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation project(path: ':multiviewadapter')
 }
