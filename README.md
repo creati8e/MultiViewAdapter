@@ -4,7 +4,11 @@
 Library for easily displaying multiple view types in RecyclerView adapter.
 You don't even need to write custom adapter and ViewHolder.
 
+**Note: library is AndroidX-only**
+
 # Setup
+Library is available on `jCenter`
+
 Add dependency to your app's `build.gradle`
 
 ```groovy

@@ -1,18 +1,39 @@
 package serg.chuprin.adapter
 
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
 
 class RendererDelegateTest {
 
-    private val rendererDelegate = RendererDelegate<Any>()
+    private lateinit var rendererDelegate: RendererDelegate<Any>
     private val testRenderer = object : SimpleViewRenderer<Any>() {
         override val type: Int = -1
+    }
+
+    @Before
+    fun setup() {
+        rendererDelegate = RendererDelegate()
     }
 
     @Test
     fun `renderer should be added after registering via reified function`() {
         rendererDelegate.registerRenderer(testRenderer)
+        assertRenderersRegistered(1)
+    }
+
+    @Test
+    fun `adding same renderer twice will cause exception being thrown`() {
+        rendererDelegate.registerRenderer(testRenderer)
+        assertRenderersRegistered(1)
+
+        var thrown = false
+        try {
+            rendererDelegate.registerRenderer(testRenderer)
+        } catch (e: IllegalStateException) {
+            thrown = true
+        }
+        Assert.assertTrue(thrown)
         assertRenderersRegistered(1)
     }
 
@@ -53,6 +74,11 @@ class RendererDelegateTest {
         rendererDelegate.removeRenderer(testRenderer)
 
         assertRenderersRegistered(0)
+    }
+
+    @Test
+    fun `removing non-existent renderer should return false`() {
+        Assert.assertFalse(rendererDelegate.removeRenderer(testRenderer))
     }
 
     private fun assertRenderersRegistered(count: Int) {

@@ -59,7 +59,7 @@ class DiffActivity : AppCompatActivity() {
             .add(Single
                 .just(true)
                 .doOnSubscribe { diffAdapter.setItems(listOf(DiffItem.Progress)) }
-                .delay(500, TimeUnit.MILLISECONDS)
+                .delay(700, TimeUnit.MILLISECONDS)
                 .map { list }
                 .subscribe(diffAdapter::setItems, Throwable::printStackTrace)
             )
