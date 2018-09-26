@@ -1,15 +1,16 @@
 package serg.chuprin.adapter.base
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import serg.chuprin.adapter.R
 import serg.chuprin.adapter.RendererDelegate
 import serg.chuprin.adapter.ViewHolder
 import serg.chuprin.adapter.ViewRenderer
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-abstract class AbsMultiViewAdapter<T : Any> : RecyclerView.Adapter<ViewHolder>(),
+abstract class AbsMultiViewAdapter<T : Any> :
+    RecyclerView.Adapter<ViewHolder>(),
     ViewHolder.ClickCallback,
     ViewHolder.LongClickCallback {
 

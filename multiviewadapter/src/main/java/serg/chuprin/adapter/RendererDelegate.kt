@@ -1,6 +1,6 @@
 package serg.chuprin.adapter
 
-import android.support.v4.util.SparseArrayCompat
+import androidx.collection.SparseArrayCompat
 
 @Suppress("UNCHECKED_CAST")
 class RendererDelegate<T : Any> {

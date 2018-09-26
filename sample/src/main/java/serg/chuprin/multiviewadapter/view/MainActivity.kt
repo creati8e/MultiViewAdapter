@@ -1,9 +1,9 @@
 package serg.chuprin.multiviewadapter.view
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding2.support.v7.widget.RecyclerViewScrollEvent
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import io.reactivex.Observable
@@ -61,7 +61,8 @@ fun RecyclerView.paginate(): Observable<ScrollEvent> {
         .startWith(RecyclerViewScrollEvent.create(this, 0, 0))
         .distinctUntilChanged { t1, t2 -> t1.dy() == t2.dy() }
         .map {
-            val pos = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+            val pos =
+                (layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findLastVisibleItemPosition()
             ScrollEvent(pos, adapter?.itemCount ?: 0)
         }
 }

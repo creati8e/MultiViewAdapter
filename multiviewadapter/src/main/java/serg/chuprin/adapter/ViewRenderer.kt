@@ -1,9 +1,9 @@
 package serg.chuprin.adapter
 
-import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 
 @Suppress("UNCHECKED_CAST")
 abstract class ViewRenderer<in M : Any, VH : ViewHolder> {

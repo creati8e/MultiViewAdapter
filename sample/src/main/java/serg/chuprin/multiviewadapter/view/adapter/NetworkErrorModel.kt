@@ -1,3 +1,3 @@
 package serg.chuprin.multiviewadapter.view.adapter
 
-class NetworkErrorModel
+object NetworkErrorModel

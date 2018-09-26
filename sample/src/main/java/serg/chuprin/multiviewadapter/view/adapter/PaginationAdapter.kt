@@ -6,14 +6,14 @@ class PaginationAdapter : MultiViewAdapter() {
 
     fun setLoadingMoreVisibility(visible: Boolean) {
         return when (visible) {
-            true -> addItemIfNotPresent(ProgressModel())
+            true -> addItemIfNotPresent(ProgressModel)
             false -> removeLast(ProgressModel::class.java)
         }
     }
 
     fun setNetworkErrorVisibility(visible: Boolean) {
         return when (visible) {
-            true -> addItemIfNotPresent(NetworkErrorModel())
+            true -> addItemIfNotPresent(NetworkErrorModel)
             false -> removeLast(NetworkErrorModel::class.java)
         }
     }
