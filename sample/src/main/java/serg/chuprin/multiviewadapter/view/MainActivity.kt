@@ -62,6 +62,6 @@ fun RecyclerView.paginate(): Observable<ScrollEvent> {
         .distinctUntilChanged { t1, t2 -> t1.dy() == t2.dy() }
         .map {
             val pos = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-            ScrollEvent(pos, adapter.itemCount)
+            ScrollEvent(pos, adapter?.itemCount ?: 0)
         }
 }

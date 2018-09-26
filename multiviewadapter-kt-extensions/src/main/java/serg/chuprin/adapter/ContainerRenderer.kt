@@ -4,11 +4,7 @@ import android.view.ViewGroup
 
 abstract class ContainerRenderer<in M : Any> : ViewRenderer<M, ContainerHolder>() {
 
-    override fun createViewHolder(
-        parent: ViewGroup, clickListener: Click?,
-        longClickListener: LongClick?
-    ): ContainerHolder {
+    override fun createViewHolder(parent: ViewGroup): ContainerHolder {
         return ContainerHolder(inflate(type, parent))
-                .also { holder -> onVhCreated(holder, clickListener, longClickListener) }
     }
 }

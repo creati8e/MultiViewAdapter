@@ -1,3 +1,5 @@
 package serg.chuprin.adapter
 
-open class MultiViewAdapter : AbsMultiViewAdapter<Any>()
+import serg.chuprin.adapter.base.BaseMultiViewAdapter
+
+open class MultiViewAdapter : BaseMultiViewAdapter<Any>()
